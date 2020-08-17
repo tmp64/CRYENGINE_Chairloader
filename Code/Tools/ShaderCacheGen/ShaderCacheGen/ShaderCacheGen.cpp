@@ -42,6 +42,12 @@ int main(int argc, char* argv[])
 	string commandLine = CryStringUtils::ANSIToUTF8(GetCommandLineA());
 	cry_strcpy(startupParams.szSystemCmdLine, commandLine.c_str());
 
-	return CryInitializeEngine(startupParams) ? EXIT_SUCCESS : EXIT_FAILURE;
+	if (CryInitializeEngine(startupParams, true))
+	{
+		SAFE_DELETE(startupParams.pSystem);
+		return EXIT_SUCCESS;
+	}
+
+	return EXIT_FAILURE;
 }
 
