@@ -346,6 +346,8 @@ struct ITimeOfDay
 		virtual int  GetVariableCount() = 0;
 		virtual bool GetVariableInfo(int nIndex, ITimeOfDay::SVariableInfo& varInfo) = 0;
 
+		virtual void SetVariableValue(int nIndex, float fValue[3]) = 0;
+
 		//! Editor interface.
 		virtual bool InterpolateVarInRange(int nIndex, float fMin, float fMax, unsigned int nCount, Vec3* resultArray) const = 0;
 		virtual uint GetSplineKeysCount(int nIndex, int nSpline) const = 0;

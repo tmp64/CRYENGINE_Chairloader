@@ -461,6 +461,14 @@ bool CTimeOfDayVariables::GetVariableInfo(int nIndex, ITimeOfDay::SVariableInfo&
 	return true;
 }
 
+void CTimeOfDayVariables::SetVariableValue(int nIndex, float fValue[3])
+{
+	if (nIndex >= 0 && nIndex < ITimeOfDay::PARAM_TOTAL)
+	{
+		m_vars[nIndex].SetValue(Vec3(fValue[0], fValue[1], fValue[2]));
+	}
+}
+
 bool CTimeOfDayVariables::InterpolateVarInRange(int nIndex, float fMin, float fMax, unsigned int nCount, Vec3* resultArray) const
 {
 	if (nIndex >= 0 && nIndex < ITimeOfDay::PARAM_TOTAL)

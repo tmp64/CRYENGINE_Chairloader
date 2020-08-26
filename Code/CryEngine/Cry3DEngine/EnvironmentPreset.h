@@ -107,6 +107,7 @@ public:
 	virtual void              Reset() override;
 	virtual int               GetVariableCount() override;
 	virtual bool              GetVariableInfo(int nIndex, ITimeOfDay::SVariableInfo& varInfo) override;
+	virtual void              SetVariableValue(int nIndex, float fValue[3]) override;
 	virtual bool              InterpolateVarInRange(int nIndex, float fMin, float fMax, unsigned int nCount, Vec3* resultArray) const override;
 	virtual uint              GetSplineKeysCount(int nIndex, int nSpline) const override;
 	virtual bool              GetSplineKeysForVar(int nIndex, int nSpline, SBezierKey* keysArray, unsigned int keysArraySize) const override;
