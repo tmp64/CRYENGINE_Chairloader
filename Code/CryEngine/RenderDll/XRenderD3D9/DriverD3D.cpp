@@ -3077,7 +3077,7 @@ void CD3D9Renderer::RenderAux()
 
 		// Commit all Aux Geom buffers except ones from the Render Thread,
 		// Render Thread will commit it's own buffer right before final rendering
-		m_pRT->ExecuteRenderThreadCommand([=/*, renderData = std::move(renderData)*/]() mutable        // Renable the capture-by-move once we support C++14..............
+		m_pRT->ExecuteRenderThreadCommand([=]() mutable
 		{
 			CRY_PROFILE_SECTION(PROFILE_RENDERER, "CD3D9Renderer::RenderAux lambda");
 
@@ -3103,11 +3103,15 @@ void CD3D9Renderer::RenderAux()
 				auxData->SetCurrentDisplayContext(stereoRenderScope.GetDisplayContextKey());
 				m_pRenderAuxGeomD3D->RT_Render(renderData);
 			}
+		}, ERenderCommandFlags::SkipDuringLoading);
 
+		// we issue a separate command for the cleanup, as that needs to happen always
+		m_pRT->ExecuteRenderThreadCommand([=]() mutable
+		{
 			m_pRenderAuxGeomD3D->RT_Reset(renderData);
 			m_pRenderAuxGeomD3D->FreeMemory();
 			ReturnAuxGeomCollector(currentCollector);
-		}, ERenderCommandFlags::SkipDuringLoading);
+		}, ERenderCommandFlags::None);
 
 		// Prepares aux geometry command buffer collector for next frame in case someone was generating aux commands before beginning next frame.
 		SetCurrentAuxGeomCollector(GetOrCreateAuxGeomCollector(auxData->GetCamera()));
