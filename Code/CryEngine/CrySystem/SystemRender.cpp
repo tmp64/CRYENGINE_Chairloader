@@ -200,6 +200,10 @@ void CSystem::CreateRendererVars(const SSystemInitParams& startupParams)
 		"Changes the type of window for the rendered viewport.\n"
 		"Usage: r_WindowType [0=normal window/1=borderless window/2=borderless full screen/3=exclusive full screen]", OnWindowStateChanged);
 
+	m_rFullscreenToDesktop = REGISTER_INT("r_window_fullscreen_to_desktop_mode", 1, VF_DUMPTODISK,
+		"Behavior for the window when losing/re-gaining focus (ALT+TAB, etc) in fullscreen exclusive mode\n"
+		"Usage: r_window_fullscreen_to_desktop_mode [1=minimize,restore/2=revert to windowed mode]");
+
 	m_rFullsceenNativeRes = REGISTER_INT("r_FullscreenNativeRes", 0, VF_DUMPTODISK,
 		"Toggles native resolution upscaling.\n"
 		"If enabled, scene gets upscaled from specified resolution while UI is rendered in native resolution.");

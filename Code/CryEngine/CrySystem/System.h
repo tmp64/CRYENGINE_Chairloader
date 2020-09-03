@@ -784,6 +784,7 @@ private: // ------------------------------------------------------
 	ICVar* m_rFullscreen;
 	ICVar* m_rFullsceenNativeRes;
 	ICVar* m_rWindowState;
+	ICVar* m_rFullscreenToDesktop;
 	ICVar* m_rDriver;
 	ICVar* m_pPhysicsLibrary;
 	ICVar* m_rDisplayInfo;

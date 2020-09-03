@@ -667,6 +667,7 @@ public:
 	ICVar* m_CVWidth;
 	ICVar* m_CVHeight;
 	ICVar* m_CVWindowType;
+	ICVar* m_CVFullscreenToDesktop;
 	ICVar* CV_r_ResizableWindow;
 	ICVar* m_CVColorBits;
 	ICVar* m_CVDisplayInfo;

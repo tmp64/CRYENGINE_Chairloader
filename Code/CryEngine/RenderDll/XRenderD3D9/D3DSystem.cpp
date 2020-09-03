@@ -2253,26 +2253,14 @@ void CD3D9Renderer::OnSystemEvent(ESystemEvent eEvent, UINT_PTR wParam, UINT_PTR
 
 #ifdef CRY_PLATFORM_WINDOWS
 
+	// Keep a state for when the window is fullscreen, but loses focus and minimizes
+	bool isFullscreenMinimized = false;
+	const int fullscreenToDesktopMode = m_CVFullscreenToDesktop != nullptr ? m_CVFullscreenToDesktop->GetIVal() : 1;
+
 	switch (eEvent)
 	{
-	case ESYSTEM_EVENT_DISPLAY_CHANGED:
-	{
-		if (!IsEditorMode())
-		{
-			// Resolution has chaned while out of focus - normally another app changing resolution
-			if (::GetFocus() != static_cast<HWND>(GetHWND()) && IsFullscreen())
-			{
-				// Change back to windowed
-				m_CVWindowType->Set(static_cast<int>(EWindowState::Windowed));
-				// Send event
-				gEnv->pSystem->GetISystemEventDispatcher()->OnSystemEvent(ESYSTEM_EVENT_TOGGLE_FULLSCREEN, 0, 0);
-			}
-		}
-	}
-	break;
 	case ESYSTEM_EVENT_RESIZE:
-	{
-		if (!IsEditorMode())
+		if (gEnv->IsEditor())
 		{
 			const EWindowState windowMode = static_cast<EWindowState>(m_CVWindowType->GetIVal());
 			if (windowMode != EWindowState::Fullscreen && windowMode != EWindowState::BorderlessFullscreen)
@@ -2281,20 +2269,46 @@ void CD3D9Renderer::OnSystemEvent(ESystemEvent eEvent, UINT_PTR wParam, UINT_PTR
 				m_CVHeight->Set(static_cast<int>(lParam));
 			}
 		}
-	}
-	break;
+		break;
 	case ESYSTEM_EVENT_ACTIVATE:
-	{
-		// Toggle DXGI fullscreen state when user alt-tabs out (when wParam == 0, the window is 'deactivated')
-		// This is required since we explicitly set the DXGI_MWA_NO_WINDOW_CHANGES, forbidding DXGI from handling this itself
-		if (IsFullscreen() && gcpRendD3D->GetBaseDisplayContext()->IsSwapChainBacked() && wParam == 0)
+		if (fullscreenToDesktopMode == 2)
 		{
-			m_CVWindowType->Set(static_cast<int>(EWindowState::Windowed));
+			// Legacy behavior - exit fullscreen mode to windowed mode
+			if (IsFullscreen() && gcpRendD3D->GetBaseDisplayContext()->IsSwapChainBacked() && wParam == 0)
+			{
+				m_CVWindowType->Set(static_cast<int>(EWindowState::Windowed));
+			}
 		}
-	}	
-	break;
+		else if (fullscreenToDesktopMode == 1)
+		{
+			// Behavior for fullscreen window when lost/gained focus: minimize unfocused window and exit fullscreen, restore window and fullscreen when re-activated
+			// Note: IsFullscreen() refers to the CVar value; do not change the CVar, as the window will return to fullscreen when activated
+			CSwapChainBackedRenderDisplayContext* pDC = nullptr;
+
+			if (!gcpRendD3D->GetBaseDisplayContext() && !gcpRendD3D->GetBaseDisplayContext()->IsSwapChainBacked() && !pDC)
+			{
+				return;
+			}
+
+			pDC = static_cast<CSwapChainBackedRenderDisplayContext*>(gcpRendD3D->GetBaseDisplayContext());
+			isFullscreenMinimized = IsFullscreen() && ::IsIconic(static_cast<HWND>(m_hWnd));
+
+			if (IsFullscreen() && wParam == WA_INACTIVE && !isFullscreenMinimized)
+			{
+				// Exit fullscreen, force minimize
+				gcpRendD3D->ExecuteRenderThreadCommand([pDC]() { pDC->SetFullscreenState(false); }, ERenderCommandFlags::None);
+				::ShowWindow(static_cast<HWND>(m_hWnd), SW_SHOWMINNOACTIVE);
+}
+			else if (wParam == WA_ACTIVE && isFullscreenMinimized)
+			{
+				// Return to fullscreen, restore minimize
+				gcpRendD3D->ExecuteRenderThreadCommand([pDC]() { pDC->SetFullscreenState(true); }, ERenderCommandFlags::None);
+				::ShowWindow(static_cast<HWND>(m_hWnd), SW_RESTORE);
+			}
+		}
+		break;
 	default:
-	break;
+		break;
 	}
 #endif //CRY_PLATFORM_WINDOWS
 

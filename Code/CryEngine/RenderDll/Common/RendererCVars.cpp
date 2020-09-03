@@ -3169,6 +3169,7 @@ void CRendererCVars::InitExternalCVars()
 	m_CVWindowType = iConsole->GetCVar("r_WindowType");
 	m_CVDisplayInfo = iConsole->GetCVar("r_DisplayInfo");
 	m_CVColorBits = iConsole->GetCVar("r_ColorBits");
+	m_CVFullscreenToDesktop = iConsole->GetCVar("r_window_fullscreen_to_desktop_mode");
 
 #if CRY_PLATFORM_WINDOWS
 	m_CVFullscreenNativeRes = iConsole->GetCVar("r_FullscreenNativeRes");
