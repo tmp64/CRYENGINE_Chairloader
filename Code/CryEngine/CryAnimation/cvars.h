@@ -73,6 +73,7 @@ struct CRY_ALIGN(128) Console
 	DeclareConstIntCVar(ca_DrawAttachments, 1);
 	DeclareConstIntCVar(ca_DrawAttachmentOBB, 0);
 	DeclareConstIntCVar(ca_DrawAttachmentProjection, 0);
+	DeclareConstIntCVar(ca_DrawAttachmentProxyTransform, 0);
 	DeclareConstIntCVar(ca_DrawBaseMesh, 1);
 	DeclareConstIntCVar(ca_DrawLocator, 0);
 	DeclareConstIntCVar(ca_DrawCGA, 1);

@@ -142,6 +142,7 @@ void Console::Init()
 	DefineConstIntCVar(ca_DrawAttachments, 1, VF_CHEAT, "if this is 0, will not draw the attachments objects");
 	DefineConstIntCVar(ca_DrawAttachmentOBB, 0, VF_CHEAT, "if this is 0, will not draw the attachments objects");
 	DefineConstIntCVar(ca_DrawAttachmentProjection, 0, VF_CHEAT, "if this is 0, will not draw the attachment projections");
+	DefineConstIntCVar(ca_DrawAttachmentProxyTransform, 0, VF_CHEAT, "if this is 1, will draw lines corresponding to proxy transforms in Character Tool");
 	DefineConstIntCVar(ca_DrawBaseMesh, 1, VF_CHEAT, "if this is 0, will not draw the characters");
 	DefineConstIntCVar(ca_DrawLocator, 0, 0, "if this is 1, we will draw the body and move-direction. If this is 2, we will also print out the move direction");
 	DefineConstIntCVar(ca_DrawCGA, 1, VF_CHEAT, "if this is 0, will not draw the CGA characters");

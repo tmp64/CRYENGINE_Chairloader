@@ -1430,10 +1430,11 @@ void CAttachmentManager::PrepareAllRedirectedTransformations(Skeleton::CPoseData
 		int idx = m_arrProxies[i].m_nJointID;
 		m_arrProxies[i].m_ProxyModelRelative = rPoseData.GetJointAbsolute(idx) * m_arrProxies[i].m_ProxyRelativeDefault;
 #ifndef _RELEASE
-		if (m_pSkelInstance->m_CharEditMode == 3)
+		if (m_pSkelInstance->m_CharEditMode == 3 && Console::GetInst().ca_DrawAttachmentProxyTransform)
 		{
 			const QuatTS& physLocation = m_pSkelInstance->m_location;
 			const Vec3& pos = rPoseData.GetJointAbsolute(idx).t;
+			g_pAuxGeom->SetRenderFlags(e_Def3DPublicRenderflags | e_DepthTestOff);
 			g_pAuxGeom->DrawLine(physLocation * pos, RGBA8(0xff, 0x00, 0x00, 0xff), physLocation * m_arrProxies[i].m_ProxyModelRelative.t, RGBA8(0x00, 0xff, 0x00, 0xff));
 		}
 #endif
