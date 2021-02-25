@@ -14,7 +14,7 @@ set(CLANG_COMMON_FLAGS
 	-fno-strict-aliasing
 	-funwind-tables
 	-gfull
-	-ffast-math
+	#-ffast-math # Temporarily disabled due to incompatibility of newer stdlibc and older clang
 	-fno-rtti
 
 	# clang 3.8 -> 5.0 upgrade

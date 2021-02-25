@@ -10,6 +10,8 @@ if(EXISTS "${CRYENGINE_DIR}/linux_bootstrap")
 	set(LINUX_BOOTSTRAP_FOLDER "${CRYENGINE_DIR}/linux_bootstrap/Code/SDKs")
 	message(STATUS "Changing SDK_DIR from ${SDK_DIR} to ${LINUX_BOOTSTRAP_FOLDER}")
 	set(SDK_DIR "${LINUX_BOOTSTRAP_FOLDER}")
+else()
+    set(LINUX_BOOTSTRAP_FOLDER "${CRYENGINE_DIR}/Code/SDKs")
 endif()
 
 # QtCreator requires selection of a "kit", which includes these, so don't force them.

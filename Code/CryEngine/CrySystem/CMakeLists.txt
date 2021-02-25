@@ -583,6 +583,7 @@ MACRO(setup_crysystem)
 			-Wno-unused-function # See ScaleformRecording and CrySocks_sce
 			-Wno-invalid-offsetof #Used in stream engine
 			-Wno-address-of-packed-member #See ZipFileFormat
+			-Wno-deprecated-declarations # ftime() in Log.cpp
 		)
 	elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 		target_compile_options(${THIS_PROJECT} PRIVATE
@@ -608,6 +609,7 @@ MACRO(setup_crysystem)
 			-Wno-format
 			-Wno-switch
 			-Wno-address-of-packed-member
+			-Wno-deprecated-declarations # ftime() in Log.cpp
 		)
 	elseif (MSVC)
 		target_compile_options(${THIS_PROJECT} PRIVATE
