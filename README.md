@@ -1,21 +1,40 @@
-# CRYENGINE
-This repository houses the source code for CRYENGINE.
+# CRYENGINE Reference Source Code
+This repository houses the reference CRYENGINE source code for [Chairloader](https://github.com/thelivingdiamond/chairloader) development.  
+This code is based on CRYENGINE 5.2.0 with additional patches to make it compile with 5.1.0 SDK.  
+It may not function correctly and only provided as a reference.
 
-Instructions on getting started with git can be found [here](http://docs.cryengine.com/display/CEPROG/Getting+Started+with+git), along with details on working with launcher projects and git source code.
+## Getting Started
+Prerequisites:
+- [Visual Studio](https://visualstudio.microsoft.com/) 2019 or newer (Community is fine)
+  - Desktop development with C++
+  - C++ ATL for latest build tools (x64)
+  - C++ MFC for latest build tools (x64)
+- [CMake](https://cmake.org/download/)
 
-
-## Building
-In order to compile, you will need to download some thirdparty SDKs. They can be downloaded by running the *download_sdks.py* script.
-Or on windows the *download_sdks.exe* can be used alternatively.
-
-To compile the engine the provided WAF has to be used. See [here](http://docs.cryengine.com/display/CEPROG/Getting+Started+with+WAF) for more information.
-
+1. Clone the repository
+   ```bash
+   git clone https://github.com/tmp64/CRYENGINE_Chairloader.git -b chairloader --depth=1
+   ```
+2. Download the SDKs from the [Releases page](https://github.com/tmp64/CRYENGINE_Chairloader/releases/tag/5.2.0)
+3. Extract SDKs into `Code/SDKs`
+   ```
+   - Code
+     - SDKs
+       - Audio
+       - BigDigits
+       - boost
+       - ...
+   ```
+4. Create `Solution_Win64` directory in the repo root.
+5. Open CMake GUI.
+6. Configure and generate the solution.
+7. Open in Visual Studio.
 
 ## Branches
-Development takes place primarily in the "main" branch. The stabilisation branch is used for fixing bugs in the run-up to release, and the release branch provides stable snapshots of the engine.
-
-To prepare for a major (feature) release, we integrate "main" into "stabilisation", and then continue fixing bugs in "stabilisation". To prepare for a minor (stability) release, individual changes from 'main are integrated directly into "stabilisation". In each case, when the release is deemed ready, "stabilisation" is integrated to "release".
-
+- `chairloader` - this branch, based on `5.2.0` tag.
+- `release` branch provides stable snapshots of the engine.
+- `stabilisation` branch is used for fixing bugs in the run-up to release.
+- `release_candidate`branch may be created for a few days before a release, if we need some critical fixes before release.
 
 ## License
 The source code in this repository is governed by the CRYENGINE license agreement, which is contained in LICENSE.md, adjacent to this file.
