@@ -197,6 +197,8 @@ inline bool Serialize(Serialization::IArchive& ar, SUniformScale& c, const char*
 				ar(vec.z, "z", "^");
 				result = ar(Serialization::SStruct(c), "scale", "^");
 
+				// yasli from 5.1.0 SDK doesn't have getModifiedRowName
+#if 0
 				if (!strcmp(ar.getModifiedRowName(), "x"))
 				{
 					c.vec.x = c.vec.y = c.vec.z = vec.x;
@@ -209,6 +211,7 @@ inline bool Serialize(Serialization::IArchive& ar, SUniformScale& c, const char*
 				{
 					c.vec.x = c.vec.y = c.vec.z = vec.z;
 				}
+#endif
 			}
 			else
 			{
